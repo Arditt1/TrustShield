@@ -1,0 +1,308 @@
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.exe
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.deps.json
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.runtimeconfig.json
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.runtimeconfig.dev.json
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.pdb
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.Views.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.Views.pdb
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Npgsql.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.ComponentModel.Annotations.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.AssemblyInfoInputs.cache
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.AssemblyInfo.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.CoreCompileInputs.cache
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorAssemblyInfo.cache
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorAssemblyInfo.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\staticwebassets\db_tsh.StaticWebAssets.Manifest.cache
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\staticwebassets\db_tsh.StaticWebAssets.xml
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\scopedcss\bundle\db_tsh.styles.css
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.TagHelpers.input.cache
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.TagHelpers.output.cache
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorCoreGenerate.cache
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Account\RegisterOrLogin.cshtml.g.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorTargetAssemblyInfo.cache
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorTargetAssemblyInfo.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.Views.pdb
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.CopyComplete
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.pdb
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.genruntimeconfig.cache
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Auto.cshtml.g.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Travel.cshtml.g.cs
+C:\Users\ardit\source\repos\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.AssemblyReference.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.exe
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.deps.json
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.runtimeconfig.json
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.runtimeconfig.dev.json
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.pdb
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.Views.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.Views.pdb
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Npgsql.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.ComponentModel.Annotations.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.AssemblyReference.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.AssemblyInfoInputs.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.AssemblyInfo.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.CoreCompileInputs.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorAssemblyInfo.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorAssemblyInfo.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\staticwebassets\db_tsh.StaticWebAssets.Manifest.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\staticwebassets\db_tsh.StaticWebAssets.xml
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\scopedcss\bundle\db_tsh.styles.css
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.TagHelpers.input.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.TagHelpers.output.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorCoreGenerate.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Account\RegisterOrLogin.cshtml.g.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Auto.cshtml.g.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Travel.cshtml.g.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorTargetAssemblyInfo.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorTargetAssemblyInfo.cs
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.Views.pdb
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.CopyComplete
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.pdb
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.genruntimeconfig.cache
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Package.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.exe
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.deps.json
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.runtimeconfig.json
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.runtimeconfig.dev.json
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.pdb
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.Views.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.Views.pdb
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Npgsql.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.ComponentModel.Annotations.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.AssemblyInfoInputs.cache
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.AssemblyInfo.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.CoreCompileInputs.cache
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorAssemblyInfo.cache
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorAssemblyInfo.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\staticwebassets\db_tsh.StaticWebAssets.Manifest.cache
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\staticwebassets\db_tsh.StaticWebAssets.xml
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\scopedcss\bundle\db_tsh.styles.css
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.TagHelpers.input.cache
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.TagHelpers.output.cache
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorCoreGenerate.cache
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Account\RegisterOrLogin.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Auto.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Package.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Travel.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorTargetAssemblyInfo.cache
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorTargetAssemblyInfo.cs
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.Views.pdb
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.CopyComplete
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.pdb
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.genruntimeconfig.cache
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\EPPlus.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\EPPlus.Interfaces.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\EPPlus.System.Drawing.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\EPPlus.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\EPPlus.Interfaces.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\EPPlus.System.Drawing.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Ardit Ameti\Desktop\db_tsh\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
+C:\Users\ardit\Desktop\Ardit\db_tsh\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.AssemblyReference.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.exe
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.deps.json
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.runtimeconfig.json
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.runtimeconfig.dev.json
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.pdb
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.Views.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\db_tsh.Views.pdb
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\EPPlus.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\EPPlus.Interfaces.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\EPPlus.System.Drawing.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Npgsql.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\System.Collections.Immutable.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\System.ComponentModel.Annotations.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\System.Diagnostics.DiagnosticSource.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\System.Text.Encoding.CodePages.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\sni.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\sni.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Text.Encoding.CodePages.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.AssemblyReference.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.AssemblyInfoInputs.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.AssemblyInfo.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.CoreCompileInputs.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorAssemblyInfo.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorAssemblyInfo.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\staticwebassets\db_tsh.StaticWebAssets.Manifest.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\staticwebassets\db_tsh.StaticWebAssets.xml
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\scopedcss\bundle\db_tsh.styles.css
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.TagHelpers.input.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.TagHelpers.output.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorCoreGenerate.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Account\RegisterOrLogin.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Auto.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Package.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Travel.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorTargetAssemblyInfo.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.RazorTargetAssemblyInfo.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.Views.pdb
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.csproj.CopyComplete
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.dll
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.pdb
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\db_tsh.genruntimeconfig.cache
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Covers.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Payment.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\PaymentSuccess.cshtml.g.cs
+C:\Users\ardit\Desktop\Ardit\Bazi\db_tsh_final\db_tsh\obj\Debug\netcoreapp3.1\Razor\Views\Home\Property.cshtml.g.cs

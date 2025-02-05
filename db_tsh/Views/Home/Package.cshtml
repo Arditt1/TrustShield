@@ -1,0 +1,47 @@
+﻿@model List<db_tsh.Models.Package>
+
+<h2>Packages</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Title</th>
+            <th>Total</th>
+            <th>Valuet</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var package in Model)
+        {
+            <tr>
+                <form asp-action="Package" method="post">
+                <td>@package.Code</td>
+                <td><input type="text" name="Title" value="@package.Title" class="form-control" required /></td>
+                <td><input type="number" step="any" name="Total" value="@package.Total" class="form-control" required /></td>
+                <td><input type="text" name="Valuet" value="@package.Valuet" class="form-control" required /></td>
+                <td>
+                    <input type="hidden" name="Code" value="@package.Code" />
+                    <button type="submit" class="btn btn-success">Save</button>
+                </td>
+                </form>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Form for adding a new package -->
+<form asp-action="Package" method="post">
+    <h3>Add New Package</h3>
+    <table class="table">
+        <tr>
+            <td><input type="text" name="Title" placeholder="Title" class="form-control" required /></td>
+            <td><input type="number" step="any" name="Total" placeholder="Total" class="form-control" required /></td>
+            <td><input type="text" name="Valuet" placeholder="Valuet" class="form-control" required /></td>
+            <td>
+                <button type="submit" class="btn btn-primary">Add Package</button>
+            </td>
+        </tr>
+    </table>
+</form>

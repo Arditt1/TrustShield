@@ -1,0 +1,78 @@
+﻿@model IEnumerable<db_tsh.Models.Covers>
+@{
+    ViewData["Title"] = "Create Cover";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="cov_amount">Cover Amount</label>
+        <input type="text" class="form-control" id="cov_amount" name="cov_amount" required />
+    </div>
+
+    <div class="form-group">
+        <label for="cov_type">Cover Type</label>
+        <input type="text" class="form-control" id="cov_type" name="cov_type" required />
+    </div>
+
+    <div class="form-group">
+        <label for="package_code">Package</label>
+        <select id="package_code" name="package_code" class="form-control" required>
+            <option value="">Select Package</option>
+            @foreach (var package in (List<SelectListItem>)ViewData["Packages"])
+            {
+                <option value="@package.Value">@package.Text</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Cover</button>
+</form>
+
+<hr />
+
+<h3>Existing Covers</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Cover Amount</th>
+            <th>Package</th>
+            <th>Cover Type</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var cover in Model)
+            {
+                <tr>
+                    <!-- Form for editing the existing cover -->
+                    <form asp-action="Covers" method="post">
+                    <td>
+                        <input type="number" class="form-control" name="cov_amount" value="@cover.cov_amount" required />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="package_code" value="@cover.PackageName" required  readonly/>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="cov_type" value="@cover.cov_type" required />
+                    </td>
+                    <td>
+                        <input type="hidden" name="cov_id" value="@cover.cov_id" />
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </td>
+                    </form>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">No covers available.</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,37 @@
+﻿@model db_tsh.Models.Payment
+@{
+    ViewData["Title"] = "Payment for Travel Health Policy";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3 class="card-title">Payment for Travel Health Policy</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Payment" method="post">
+                        <div class="form-group">
+                            <label for="policyId">Policy ID</label>
+                            <input type="text" class="form-control" id="policyId" name="policyId" value="@Model.PolicyId" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="PAmount">Payment Amount</label>
+                            <input type="number" class="form-control" id="PAmount" name="PAmount" placeholder="Enter payment amount" value="@Model.PAmount" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="PDate">Payment Date</label>
+                            <input type="date" class="form-control" id="PDate" name="PDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="visaNumber">Visa Number</label>
+                            <input type="text" class="form-control" id="visaNumber" name="visaNumber" placeholder="Enter your visa number" required>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Submit Payment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

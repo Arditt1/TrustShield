@@ -1,0 +1,62 @@
+﻿@model db_tsh.Models.Osi
+@{
+    ViewData["Title"] = "Buy Travel Health Policy";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title">Buy Travel Health Policy</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Travel" method="post">
+                        <div class="form-group">
+                            <label for="OEmbg">OEmbg</label>
+                            <input type="text" class="form-control" id="OEmbg" name="OEmbg" placeholder="Enter your id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="surname">Surname</label>
+                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Enter your surname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthdate">Birthdate</label>
+                            <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="kontakt">Contact</label>
+                            <input type="text" class="form-control" id="kontakt" name="kontakt" placeholder="Enter your contact information" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="startDate">Start Date</label>
+                            <input type="date" class="form-control" id="startDate" name="startDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="numberOfDays">Number of Days</label>
+                            <input type="number" class="form-control" id="numberOfDays" name="numberOfDays" placeholder="Enter the number of days" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="package">Package</label>
+                            <select class="form-control" id="package" name="package" required>
+                                <option value="">Select Package</option>
+                                @if (ViewBag.Packages != null)
+                                {
+                                    foreach (var package in ViewBag.Packages)
+                                    {
+                                        <option value="@package.Code">@package.Title</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

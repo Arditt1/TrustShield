@@ -1,0 +1,168 @@
+﻿@{
+    ViewData["Title"] = "Reports";
+}
+<h1>@ViewData["Title"]</h1>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reports</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="date"] {
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #337ab7;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #337ab7;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #23527c;
+            }
+
+        .error {
+            color: #ff0000;
+            text-align: center;
+        }
+
+        .dropdown {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /*navbarr*/
+        .navbar {
+            background-color: aqua;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-weight: bold;
+            margin-right: 30px;
+        }
+
+        .nav-link {
+            color: white;
+            margin-right: 15px;
+        }
+
+            .nav-link:hover {
+                color: #f8f8f8;
+                text-decoration: none;
+            }
+
+        .navbar-toggler {
+            border: none;
+            background-color: transparent;
+            color: white;
+        }
+
+        .navbar-toggler-icon {
+            background-color: white;
+        }
+
+        .navcontainer {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+
+    @using (Html.BeginForm("Privacy", "Home", FormMethod.Post))
+    {
+    <form>
+        <input type="date" name="datef" placeholder="Start Date" id="datef" />
+        <input type="date" name="datem" placeholder="End Date" id="datem" />
+        <div class="form-group">
+            <label for="customer">Customer</label>
+            <select class="form-control" id="dropdown" name="dropdown" required>
+                <option value="">Select Customer</option>
+                @if (ViewBag.Items != null)
+                {
+                    foreach (var item in ViewBag.Items)
+                    {
+                        <option value="@item.Email">@item.Name</option>
+                    }
+                }
+            </select>
+        </div>
+        @*<select name="dropdown" class="dropdown">
+            @if (ViewBag.Items != null)
+            {
+                foreach (var item in ViewBag.Items)
+                {
+                    <option value="@item.C_id">@item.Name</option>
+                }
+            }
+        </select>*@
+
+        <input type="submit" name="Generate" value="Generate" />
+    </form>
+    }
+
+
+
+    @if (!string.IsNullOrEmpty(ViewBag.Nodata))
+    {
+        <div class="alert alert-info">@ViewBag.Nodata</div>
+    }
+</body>
+</html>
+<script>
+    document.getElementById("datef").valueAsDate = new Date();
+    document.getElementById("datem").valueAsDate = new Date();
+</script>
+

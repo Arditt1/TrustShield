@@ -1,0 +1,56 @@
+﻿@model db_tsh.Models.Property
+@{
+    ViewData["Title"] = "Property Management";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="policy">Policy</label>
+        <input type="text" class="form-control" id="policy" name="policy" required />
+    </div>
+
+    <div class="form-group">
+        <label for="startDate">Start Date</label>
+        <input type="date" class="form-control" id="startDate" name="startDate" required>
+    </div>
+    <div class="form-group">
+        <label for="numberOfDays">Number of Days</label>
+        <input type="number" class="form-control" id="numberOfDays" name="numberOfDays" placeholder="Enter the number of days" required>
+    </div>
+    <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" class="form-control" id="address" name="address" required />
+    </div>
+
+    <div class="form-group">
+        <label for="floor">Floor</label>
+        <input type="text" class="form-control" id="floor" name="floor" required />
+    </div>
+
+    <div class="form-group">
+        <label for="year_build">Year Built</label>
+        <input type="number" class="form-control" id="year_build" name="year_build" required />
+    </div>
+
+    <div class="form-group">
+        <label for="security">Security</label>
+        <input type="text" class="form-control" id="security" name="security" required />
+    </div>
+    <div class="form-group">
+        <label for="package">Package</label>
+        <select class="form-control" id="package" name="package" required>
+            <option value="">Select Package</option>
+            @if (ViewBag.Packages != null)
+            {
+                foreach (var package in ViewBag.Packages)
+                {
+                    <option value="@package.Code">@package.Title</option>
+                }
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Property</button>
+</form>
