@@ -5,11 +5,7 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<form method="post">
-    <div class="form-group">
-        <label for="policy">Policy</label>
-        <input type="text" class="form-control" id="policy" name="policy" required />
-    </div>
+<form asp-action="Property" method="post">
 
     <div class="form-group">
         <label for="startDate">Start Date</label>
@@ -30,8 +26,8 @@
     </div>
 
     <div class="form-group">
-        <label for="year_build">Year Built</label>
-        <input type="number" class="form-control" id="year_build" name="year_build" required />
+        <label for="YearBuild">Year Built</label>
+        <input type="number" class="form-control" id="YearBuild" name="YearBuild" required />
     </div>
 
     <div class="form-group">

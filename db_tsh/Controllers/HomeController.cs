@@ -551,8 +551,19 @@ namespace db_tsh.Controllers
                         insertPolicyCmd.Parameters.AddWithValue("@Edate", endDate);
                         insertPolicyCmd.Parameters.AddWithValue("@Package", packageId);
                         int p_id = (int)insertPolicyCmd.ExecuteScalar();
+
+                        // Handle Property and Policy association (Insert/Update)
+                        int pr_id = 0;
+                        string policyQuery = "INSERT INTO project.Property_pol (pol_id) OUTPUT INSERTED.pr_id VALUES (@pol_id)";
+                        using (SqlCommand cmd = new SqlCommand(policyQuery, con))
+                        {
+                            cmd.Parameters.AddWithValue("@pol_id", p_id); // Policy selected in the form
+
+                            pr_id = (int)cmd.ExecuteScalar();
+                        }
+
                         // Insert or Update Property
-                        string query = "INSERT INTO project.Property (policy, address, floor, year_build, security) VALUES (@policy, @address, @floor, @year_build, @security)";
+                        string query = "INSERT INTO project.Property (prop_id, policy, address, floor, year_build, security) VALUES (@prop_id, @policy, @address, @floor, @year_build, @security)";
 
                         using (SqlCommand cmd = new SqlCommand(query, con))
                         {
@@ -561,20 +572,21 @@ namespace db_tsh.Controllers
                             cmd.Parameters.AddWithValue("@floor", property.Floor);
                             cmd.Parameters.AddWithValue("@year_build", property.YearBuild);
                             cmd.Parameters.AddWithValue("@security", property.Security);
-                            cmd.Parameters.AddWithValue("@prop_id", property.P_id);
+                            cmd.Parameters.AddWithValue("@prop_id", pr_id);
 
-                            await cmd.ExecuteNonQueryAsync();
+                            cmd.ExecuteNonQuery();
                         }
 
-                        // Handle Property and Policy association (Insert/Update)
-                        string policyQuery = "INSERT INTO project.Property_pol (prop_id, pol_id) VALUES (@prop_id, @pol_id)";
-                        using (SqlCommand cmd = new SqlCommand(policyQuery, con))
+                        string insertdog = @"insert into project.pol_dog (d_embg ,c_id, name, policy, birthdate)
+                                                select @a_id,c_id, name, @Policy, getdate() from project.Customer where email=@email ";
+                        using (SqlCommand insertDogCmd = new SqlCommand(insertdog, con))
                         {
-                            cmd.Parameters.AddWithValue("@prop_id", property.P_id); // Assuming PropId is generated after insert
-                            cmd.Parameters.AddWithValue("@pol_id", p_id); // Policy selected in the form
-
-                            await cmd.ExecuteNonQueryAsync();
+                            insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
+                            insertDogCmd.Parameters.AddWithValue("@email", User.Identity.Name);
+                            insertDogCmd.Parameters.AddWithValue("@a_id", a_id + 1);
+                            insertDogCmd.ExecuteNonQuery();
                         }
+
                         return RedirectToAction("Payment", new { policyId = p_id, package = packageId });
                     }
                     return RedirectToAction("Property");
