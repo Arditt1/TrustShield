@@ -532,10 +532,10 @@ namespace db_tsh.Controllers
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 int packageId = int.Parse(Request.Form["package"]);
 
-
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     await con.OpenAsync();
+
                     // Calculate end date based on the selected start date and number of days
                     DateTime startDate = DateTime.Parse(Request.Form["startDate"]);
                     int numberOfDays = int.Parse(Request.Form["numberOfDays"]);
@@ -543,53 +543,53 @@ namespace db_tsh.Controllers
 
                     // Insert data into Policy table with automatic ID generation
                     string insertPolicyQuery = "INSERT INTO project.Policy (sdate, edate, package) " +
-                        "OUTPUT INSERTED.p_id " +
-                        "VALUES (@Sdate, @Edate, @Package)";
+                                               "OUTPUT INSERTED.p_id " +
+                                               "VALUES (@Sdate, @Edate, @Package)";
+                    int p_id;
                     using (SqlCommand insertPolicyCmd = new SqlCommand(insertPolicyQuery, con))
                     {
                         insertPolicyCmd.Parameters.AddWithValue("@Sdate", startDate);
                         insertPolicyCmd.Parameters.AddWithValue("@Edate", endDate);
                         insertPolicyCmd.Parameters.AddWithValue("@Package", packageId);
-                        int p_id = (int)insertPolicyCmd.ExecuteScalar();
-
-                        // Handle Property and Policy association (Insert/Update)
-                        int pr_id = 0;
-                        string policyQuery = "INSERT INTO project.Property_pol (pol_id) OUTPUT INSERTED.pr_id VALUES (@pol_id)";
-                        using (SqlCommand cmd = new SqlCommand(policyQuery, con))
-                        {
-                            cmd.Parameters.AddWithValue("@pol_id", p_id); // Policy selected in the form
-
-                            pr_id = (int)cmd.ExecuteScalar();
-                        }
-
-                        // Insert or Update Property
-                        string query = "INSERT INTO project.Property (prop_id, policy, address, floor, year_build, security) VALUES (@prop_id, @policy, @address, @floor, @year_build, @security)";
-
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            cmd.Parameters.AddWithValue("@policy", p_id);
-                            cmd.Parameters.AddWithValue("@address", property.Address);
-                            cmd.Parameters.AddWithValue("@floor", property.Floor);
-                            cmd.Parameters.AddWithValue("@year_build", property.YearBuild);
-                            cmd.Parameters.AddWithValue("@security", property.Security);
-                            cmd.Parameters.AddWithValue("@prop_id", pr_id);
-
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        string insertdog = @"insert into project.pol_dog (d_embg ,c_id, name, policy, birthdate)
-                                                select @a_id,c_id, name, @Policy, getdate() from project.Customer where email=@email ";
-                        using (SqlCommand insertDogCmd = new SqlCommand(insertdog, con))
-                        {
-                            insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
-                            insertDogCmd.Parameters.AddWithValue("@email", User.Identity.Name);
-                            insertDogCmd.Parameters.AddWithValue("@a_id", a_id + 1);
-                            insertDogCmd.ExecuteNonQuery();
-                        }
-
-                        return RedirectToAction("Payment", new { policyId = p_id, package = packageId });
+                        p_id = (int)insertPolicyCmd.ExecuteScalar(); // Get the policy ID (p_id)
                     }
-                    return RedirectToAction("Property");
+
+                    // Handle Property and Policy association (Insert into Property_pol)
+                    int pr_id = 0;
+                    string policyQuery = "INSERT INTO project.Property_pol (pol_id) OUTPUT INSERTED.pr_id VALUES (@pol_id)";
+                    using (SqlCommand cmd = new SqlCommand(policyQuery, con))
+                    {
+                        cmd.Parameters.AddWithValue("@pol_id", p_id); // Use p_id from Policy table
+                        pr_id = (int)cmd.ExecuteScalar(); // Get the generated pr_id for Property_pol
+                    }
+
+                    // Insert into Property table
+                    string query = "INSERT INTO project.Property (policy, address, floor, year_build, security) " +
+                                   "VALUES (@policy, @address, @floor, @year_build, @security)";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@policy", pr_id); // Use pr_id from Property_pol
+                        cmd.Parameters.AddWithValue("@address", property.Address);
+                        cmd.Parameters.AddWithValue("@floor", property.Floor);
+                        cmd.Parameters.AddWithValue("@year_build", property.YearBuild);
+                        cmd.Parameters.AddWithValue("@security", property.Security);
+
+                        cmd.ExecuteNonQuery(); // Insert into Property table
+                    }
+
+                    // Insert related dog data into the pol_dog table
+                    string insertdog = @"INSERT INTO project.pol_dog (d_embg, c_id, name, policy, birthdate)
+                             SELECT @a_id, c_id, name, @Policy, GETDATE() FROM project.Customer WHERE email=@email";
+                    using (SqlCommand insertDogCmd = new SqlCommand(insertdog, con))
+                    {
+                        insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
+                        insertDogCmd.Parameters.AddWithValue("@email", User.Identity.Name);
+                        insertDogCmd.Parameters.AddWithValue("@a_id", pr_id + 1);
+                        insertDogCmd.ExecuteNonQuery();
+                    }
+
+                    return RedirectToAction("Payment", new { policyId = p_id, package = packageId });
                 }
             }
             catch (Exception ex)
