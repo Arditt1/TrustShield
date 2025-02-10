@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using OfficeOpenXml;
+using Renci.SshNet;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -29,6 +30,41 @@ namespace db_tsh.Controllers
             _configuration = configuration;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
         }
+
+        private async Task<NpgsqlConnection> OpenDatabaseConnectionAsync()
+        {
+            // Get SSH and DB connection info from appsettings.json
+            var sshHost = _configuration["SSH:Host"];
+            var sshUser = _configuration["SSH:Username"];
+            var sshPassword = _configuration["SSH:Password"];
+            var sshPort = int.Parse(_configuration["SSH:Port"]);
+
+            var dbHost = "localhost";  // As SSH tunnel will forward to localhost
+            var dbPort = 5432;         // Default PostgreSQL port
+            var dbUser = _configuration["ConnectionStrings:DefaultConnection"].Split(';')[2].Split('=')[1];
+            var dbPassword = _configuration["ConnectionStrings:DefaultConnection"].Split(';')[3].Split('=')[1];
+            var dbName = _configuration["ConnectionStrings:DefaultConnection"].Split(';')[4].Split('=')[1];
+
+            // Set up the SSH tunnel using SSH.NET
+            using (var sshClient = new SshClient(sshHost, sshPort, sshUser, sshPassword))
+            {
+                sshClient.Connect();
+                var portForwarded = new ForwardedPortLocal("localhost", (uint)dbPort, dbHost, (uint)dbPort);
+                sshClient.AddForwardedPort(portForwarded);
+                portForwarded.Start();
+
+                Console.WriteLine("SSH Tunnel established.");
+
+                // Create the PostgreSQL connection string
+                var connectionString = $"Host=localhost;Port={dbPort};Username={dbUser};Password={dbPassword};Database={dbName}";
+
+                // Open and return the PostgreSQL connection
+                var conn = new NpgsqlConnection(connectionString);
+                await conn.OpenAsync();
+                return conn;
+            }
+        }
+
 
         public IActionResult GetLoggedInUserInfo()
         {
@@ -53,7 +89,7 @@ namespace db_tsh.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult Index(int? page)
+        public async Task<IActionResult> IndexAsync(int? page)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             //List<Customer> cl = new List<Customer>();
@@ -69,7 +105,7 @@ namespace db_tsh.Controllers
             if (User.Identity.Name == "a@trustshield.com")
                 ViewBag.isadmin = "Yes";
 
-            using (SqlConnection con = new SqlConnection(connectionString))
+            using (var con = await OpenDatabaseConnectionAsync())
             {
                 con.Open();
                 string query = string.Format(@"
@@ -92,8 +128,8 @@ namespace db_tsh.Controllers
             LEFT JOIN project.package pkg ON p.package = pkg.code
             {0}", userwhere);
 
-                SqlCommand com = new SqlCommand(query, con);
-                SqlDataAdapter sqlda = new SqlDataAdapter(com);
+                NpgsqlCommand com = new NpgsqlCommand(query, con);
+                NpgsqlDataAdapter sqlda = new NpgsqlDataAdapter(com);
                 DataSet ds = new DataSet();
                 sqlda.Fill(ds);
 
@@ -139,10 +175,10 @@ namespace db_tsh.Controllers
 
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> PrivacyAsync()
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            SqlConnection sqlcon = new SqlConnection(connectionString);
+            NpgsqlConnection sqlcon = await OpenDatabaseConnectionAsync();
             sqlcon.Open();
             string query = "";
 
@@ -158,10 +194,10 @@ namespace db_tsh.Controllers
                 query = string.Format("SELECT email, name FROM project.Customer WHERE email='{0}'", User.Identity.Name);
             }
 
-            using (SqlCommand command = new SqlCommand(query, sqlcon))
+            using (NpgsqlCommand command = new NpgsqlCommand(query, sqlcon))
             {
                 // Execute the command and retrieve the data
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (NpgsqlDataReader reader = command.ExecuteReader())
                 {
                     // Create a list to store the data
                     List<Customer> items = new List<Customer>();
@@ -196,10 +232,10 @@ namespace db_tsh.Controllers
 
 
         [HttpPost]
-        public ActionResult Privacy(string datef, string datem, string dropdown)
+        public async Task<ActionResult> PrivacyAsync(string datef, string datem, string dropdown)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            SqlConnection sqlcon = new SqlConnection(connectionString);
+            NpgsqlConnection sqlcon = await OpenDatabaseConnectionAsync();
             sqlcon.Open();
             string dropdown_params = string.Empty;
             if (dropdown != null)
@@ -224,7 +260,7 @@ namespace db_tsh.Controllers
             LEFT JOIN project.package pkg ON p.package = pkg.code
             where p.sdate between  '{0}' and '{1}'  {2}", datef, datem, dropdown_params);
 
-            DataTable dataTable = GetDataFromSqlServer(connectionString, query);
+            DataTable dataTable = await GetDataFromSqlServerAsync(connectionString, query);
 
             if (dataTable.Rows.Count == 0)
             {
@@ -235,14 +271,14 @@ namespace db_tsh.Controllers
             string fileName = "template.xlsx";
             return GenerateExcelFile(fileName, dataTable);
         }
-        public DataTable GetDataFromSqlServer(string connectionString, string query)
+        public async Task<DataTable> GetDataFromSqlServerAsync(string connectionString, string query)
         {
             DataTable dataTable = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (NpgsqlConnection connection = await OpenDatabaseConnectionAsync())
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                NpgsqlCommand command = new NpgsqlCommand(query, connection);
+                NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(command);
 
                 connection.Open();
                 adapter.Fill(dataTable);
@@ -311,14 +347,14 @@ namespace db_tsh.Controllers
         }
 
         [HttpPost]
-        public IActionResult Auto(Vehicle veh)
+        public async Task<IActionResult> AutoAsync(Vehicle veh)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                    using (SqlConnection con = new SqlConnection(connectionString))
+                    using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                     {
                         con.Open();
 
@@ -327,7 +363,7 @@ namespace db_tsh.Controllers
 
                         // Insert data into Policy table with automatic ID generation
                         string insertPolicyQuery = "INSERT INTO project.Policy (sdate, edate, package) OUTPUT INSERTED.p_id VALUES (@Sdate, @Edate, 5)";
-                        using (SqlCommand insertPolicyCmd = new SqlCommand(insertPolicyQuery, con))
+                        using (NpgsqlCommand insertPolicyCmd = new NpgsqlCommand(insertPolicyQuery, con))
                         {
                             insertPolicyCmd.Parameters.AddWithValue("@Sdate", startDate);
                             insertPolicyCmd.Parameters.AddWithValue("@Edate", enddate); // Example end date: 1 year from now
@@ -335,7 +371,7 @@ namespace db_tsh.Controllers
 
                             // Insert data into Auto_pol table with automatic ID generation
                             string insertPolAutoQuery = "INSERT INTO project.Auto_pol (pol_id) OUTPUT INSERTED.a_id VALUES (@Pol_Id)";
-                            using (SqlCommand insertPolAutoCmd = new SqlCommand(insertPolAutoQuery, con))
+                            using (NpgsqlCommand insertPolAutoCmd = new NpgsqlCommand(insertPolAutoQuery, con))
                             {
                                 insertPolAutoCmd.Parameters.AddWithValue("@Pol_Id", p_id);
                                 int a_id = (int)insertPolAutoCmd.ExecuteScalar();
@@ -343,7 +379,7 @@ namespace db_tsh.Controllers
                                 // Insert data into Vehicle table
                                 string insertVehicleQuery = "INSERT INTO project.Vehicle (policy, type, marka, model, license_plate) " +
                                     "VALUES (@Policy, @Type, @Marka, @Model, @LicensePlate)";
-                                using (SqlCommand insertVehicleCmd = new SqlCommand(insertVehicleQuery, con))
+                                using (NpgsqlCommand insertVehicleCmd = new NpgsqlCommand(insertVehicleQuery, con))
                                 {
                                     insertVehicleCmd.Parameters.AddWithValue("@Policy", a_id);
                                     insertVehicleCmd.Parameters.AddWithValue("@Type", veh.Type);
@@ -355,7 +391,7 @@ namespace db_tsh.Controllers
 
                                 string insertdog = @"insert into project.pol_dog (d_embg ,c_id, name, policy, birthdate)
                                                 select @a_id,c_id, name, @Policy, getdate() from project.Customer where email=@email ";
-                                using (SqlCommand insertDogCmd = new SqlCommand(insertdog, con))
+                                using (NpgsqlCommand insertDogCmd = new NpgsqlCommand(insertdog, con))
                                 {
                                     insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
                                     insertDogCmd.Parameters.AddWithValue("@email", User.Identity.Name);
@@ -378,18 +414,18 @@ namespace db_tsh.Controllers
         }
 
 
-        public IActionResult Travel()
+        public async Task<IActionResult> TravelAsync()
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             // Query the database to retrieve packages data
             List<Package> packages = new List<Package>(); // Replace Package with your actual model class
-            using (SqlConnection con = new SqlConnection(connectionString)) // Replace SqlConnection with your database connection type
+            using (NpgsqlConnection con = await OpenDatabaseConnectionAsync()) // Replace NpgsqlConnection with your database connection type
             {
                 con.Open();
                 string query = "SELECT code, title FROM project.Package where type_pol=1";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                 {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -409,14 +445,14 @@ namespace db_tsh.Controllers
         }
 
         [HttpPost]
-        public IActionResult Travel(Osi polOsi)
+        public async Task<IActionResult> TravelAsync(Osi polOsi)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     string connectionString = _configuration.GetConnectionString("DefaultConnection");
-                    using (SqlConnection con = new SqlConnection(connectionString))
+                    using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                     {
                         con.Open();
 
@@ -431,7 +467,7 @@ namespace db_tsh.Controllers
                         string insertPolicyQuery = "INSERT INTO project.Policy (sdate, edate, package) " +
                             "OUTPUT INSERTED.p_id " +
                             "VALUES (@Sdate, @Edate, @Package)";
-                        using (SqlCommand insertPolicyCmd = new SqlCommand(insertPolicyQuery, con))
+                        using (NpgsqlCommand insertPolicyCmd = new NpgsqlCommand(insertPolicyQuery, con))
                         {
                             insertPolicyCmd.Parameters.AddWithValue("@Sdate", startDate);
                             insertPolicyCmd.Parameters.AddWithValue("@Edate", endDate);
@@ -442,7 +478,7 @@ namespace db_tsh.Controllers
                             string insertPolTravelQuery = "INSERT INTO project.Travel_pol (pol_id) " +
                                 "OUTPUT INSERTED.tr_id " +
                                 "VALUES (@Pol_Id)";
-                            using (SqlCommand insertPolTravelCmd = new SqlCommand(insertPolTravelQuery, con))
+                            using (NpgsqlCommand insertPolTravelCmd = new NpgsqlCommand(insertPolTravelQuery, con))
                             {
                                 insertPolTravelCmd.Parameters.AddWithValue("@Pol_Id", p_id);
                                 int tr_id = (int)insertPolTravelCmd.ExecuteScalar();
@@ -450,7 +486,7 @@ namespace db_tsh.Controllers
                                 // Insert data into PolOsi table
                                 string insertPolOsiQuery = "INSERT INTO project.Pol_osi (o_embg, policy, name, surname, birthdate, kontakt) " +
                                     "VALUES (@O_Embg, @Policy, @Name, @Surname, @Birthdate, @Kontakt)";
-                                using (SqlCommand insertPolOsiCmd = new SqlCommand(insertPolOsiQuery, con))
+                                using (NpgsqlCommand insertPolOsiCmd = new NpgsqlCommand(insertPolOsiQuery, con))
                                 {
                                     insertPolOsiCmd.Parameters.AddWithValue("@O_Embg", polOsi.OEmbg);
                                     insertPolOsiCmd.Parameters.AddWithValue("@Policy", tr_id);
@@ -464,7 +500,7 @@ namespace db_tsh.Controllers
                                             SELECT @tr_id, c_id, name, @Policy, GETDATE() 
                                             FROM project.Customer 
                                             WHERE email = @email";
-                                using (SqlCommand insertDogCmd = new SqlCommand(insertdog, con))
+                                using (NpgsqlCommand insertDogCmd = new NpgsqlCommand(insertdog, con))
                                 {
                                     insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
                                     insertDogCmd.Parameters.AddWithValue("@email", User.Identity.Name);
@@ -498,13 +534,13 @@ namespace db_tsh.Controllers
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             // Query the database to retrieve packages data
             List<Package> packages = new List<Package>(); // Replace Package with your actual model class
-            using (SqlConnection con = new SqlConnection(connectionString)) // Replace SqlConnection with your database connection type
+            using (NpgsqlConnection con = await OpenDatabaseConnectionAsync()) // Replace NpgsqlConnection with your database connection type
             {
                 con.Open();
                 string query = "SELECT code, title FROM project.Package where type_pol=2";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                 {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -532,7 +568,7 @@ namespace db_tsh.Controllers
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
                 int packageId = int.Parse(Request.Form["package"]);
 
-                using (SqlConnection con = new SqlConnection(connectionString))
+                using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                 {
                     await con.OpenAsync();
 
@@ -546,7 +582,7 @@ namespace db_tsh.Controllers
                                                "OUTPUT INSERTED.p_id " +
                                                "VALUES (@Sdate, @Edate, @Package)";
                     int p_id;
-                    using (SqlCommand insertPolicyCmd = new SqlCommand(insertPolicyQuery, con))
+                    using (NpgsqlCommand insertPolicyCmd = new NpgsqlCommand(insertPolicyQuery, con))
                     {
                         insertPolicyCmd.Parameters.AddWithValue("@Sdate", startDate);
                         insertPolicyCmd.Parameters.AddWithValue("@Edate", endDate);
@@ -557,7 +593,7 @@ namespace db_tsh.Controllers
                     // Handle Property and Policy association (Insert into Property_pol)
                     int pr_id = 0;
                     string policyQuery = "INSERT INTO project.Property_pol (pol_id) OUTPUT INSERTED.pr_id VALUES (@pol_id)";
-                    using (SqlCommand cmd = new SqlCommand(policyQuery, con))
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(policyQuery, con))
                     {
                         cmd.Parameters.AddWithValue("@pol_id", p_id); // Use p_id from Policy table
                         pr_id = (int)cmd.ExecuteScalar(); // Get the generated pr_id for Property_pol
@@ -567,7 +603,7 @@ namespace db_tsh.Controllers
                     string query = "INSERT INTO project.Property (policy, address, floor, year_build, security) " +
                                    "VALUES (@policy, @address, @floor, @year_build, @security)";
 
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@policy", pr_id); // Use pr_id from Property_pol
                         cmd.Parameters.AddWithValue("@address", property.Address);
@@ -581,7 +617,7 @@ namespace db_tsh.Controllers
                     // Insert related dog data into the pol_dog table
                     string insertdog = @"INSERT INTO project.pol_dog (d_embg, c_id, name, policy, birthdate)
                              SELECT @a_id, c_id, name, @Policy, GETDATE() FROM project.Customer WHERE email=@email";
-                    using (SqlCommand insertDogCmd = new SqlCommand(insertdog, con))
+                    using (NpgsqlCommand insertDogCmd = new NpgsqlCommand(insertdog, con))
                     {
                         insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
                         insertDogCmd.Parameters.AddWithValue("@email", User.Identity.Name);
@@ -611,13 +647,13 @@ namespace db_tsh.Controllers
 
                 List<Package> packages = new List<Package>();
 
-                using (SqlConnection con = new SqlConnection(connectionString))
+                using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                 {
                     await con.OpenAsync();
                     string query = "SELECT * FROM project.package"; // Adjust query to fetch all packages
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                     {
-                        SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                        NpgsqlDataReader reader = await cmd.ExecuteReaderAsync();
                         while (await reader.ReadAsync())
                         {
                             Package package = new Package
@@ -651,7 +687,7 @@ namespace db_tsh.Controllers
                 {
                     string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
-                    using (SqlConnection con = new SqlConnection(connectionString))
+                    using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                     {
                         await con.OpenAsync();
 
@@ -660,7 +696,7 @@ namespace db_tsh.Controllers
                             string insertQuery = "INSERT INTO project.package (Title, Total, Valuet) " +
                                                  "VALUES (@Title, @Total, @Valuet)";
 
-                            using (SqlCommand cmd = new SqlCommand(insertQuery, con))
+                            using (NpgsqlCommand cmd = new NpgsqlCommand(insertQuery, con))
                             {
                                 cmd.Parameters.AddWithValue("@Title", package.Title);
                                 cmd.Parameters.AddWithValue("@Total", package.Total);
@@ -674,7 +710,7 @@ namespace db_tsh.Controllers
                             string updateQuery = "UPDATE project.package SET Title = @Title, Total = @Total, Valuet = @Valuet " +
                                                  "WHERE Code = @Code";
 
-                            using (SqlCommand cmd = new SqlCommand(updateQuery, con))
+                            using (NpgsqlCommand cmd = new NpgsqlCommand(updateQuery, con))
                             {
                                 cmd.Parameters.AddWithValue("@Title", package.Title);
                                 cmd.Parameters.AddWithValue("@Total", package.Total);
@@ -708,15 +744,15 @@ namespace db_tsh.Controllers
                 List<SelectListItem> packages = new List<SelectListItem>();
                 List<Covers> covers = new List<Covers>();
 
-                using (SqlConnection con = new SqlConnection(connectionString))
+                using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                 {
                     await con.OpenAsync();
 
                     // Query to fetch packages
                     string query = "SELECT code, title FROM project.Package";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                     {
-                        SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                        NpgsqlDataReader reader = await cmd.ExecuteReaderAsync();
                         while (await reader.ReadAsync())
                         {
                             packages.Add(new SelectListItem
@@ -728,15 +764,15 @@ namespace db_tsh.Controllers
                     }
                 }
 
-                using (SqlConnection con = new SqlConnection(connectionString))
+                using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                 {
                     await con.OpenAsync();
 
                     // Query to fetch packages
                     string query = "SELECT (select title from project.Package where code=pc.package) as package_name,pc.* FROM project.covers pc";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                     {
-                        SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                        NpgsqlDataReader reader = await cmd.ExecuteReaderAsync();
                         while (await reader.ReadAsync())
                         {
                             Covers cover = new Covers
@@ -771,7 +807,7 @@ namespace db_tsh.Controllers
                 // Get the connection string
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
-                using (SqlConnection con = new SqlConnection(connectionString))
+                using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                 {
                     await con.OpenAsync();
 
@@ -787,7 +823,7 @@ namespace db_tsh.Controllers
                         query = "INSERT INTO project.Covers (cov_amount, package, cov_type) VALUES (@cov_amount, @package, @cov_type)";
                     }
 
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                     {
                         // Add parameters to prevent SQL injection
                         cmd.Parameters.AddWithValue("@cov_amount", cover.cov_amount);
@@ -804,7 +840,7 @@ namespace db_tsh.Controllers
                         int result = await cmd.ExecuteNonQueryAsync();
                         if (result > 0)
                         {
-                            return RedirectToAction(nameof(Index)); // Redirect after success
+                            return RedirectToAction(nameof(IndexAsync)); // Redirect after success
                         }
                         else
                         {
@@ -823,7 +859,7 @@ namespace db_tsh.Controllers
 
 
         [HttpGet]
-        public IActionResult Payment(int policyId, int package = 0)
+        public async Task<IActionResult> PaymentAsync(int policyId, int package = 0)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             int total = 0;
@@ -834,13 +870,13 @@ namespace db_tsh.Controllers
 
                 try
                 {
-                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    using (NpgsqlConnection conn = await OpenDatabaseConnectionAsync())
                     {
                         // Open the connection
                         conn.Open();
 
                         // Create and configure the SQL command
-                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                         {
                             cmd.Parameters.AddWithValue("@package", package);
 
@@ -877,7 +913,7 @@ namespace db_tsh.Controllers
         }
 
         [HttpPost]
-        public IActionResult Payment(Payment model)
+        public async Task<IActionResult> PaymentAsync(Payment model)
         {
             if (ModelState.IsValid)
             {
@@ -890,13 +926,13 @@ namespace db_tsh.Controllers
                     string query = "INSERT INTO project.Payment (policy, p_date, p_amount, visa_number) " +
                                    "VALUES (@PolicyId, @PaymentDate, @PaymentAmount, @VisaNumber);";
 
-                    using (SqlConnection conn = new SqlConnection(connectionString))
+                    using (NpgsqlConnection conn = await OpenDatabaseConnectionAsync())
                     {
                         // Open the connection
                         conn.Open();
 
                         // Create and configure the SQL command
-                        using (SqlCommand cmd = new SqlCommand(query, conn))
+                        using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                         {
                             cmd.Parameters.AddWithValue("@PolicyId", model.PolicyId);
                             cmd.Parameters.AddWithValue("@PaymentDate", model.PDate);
