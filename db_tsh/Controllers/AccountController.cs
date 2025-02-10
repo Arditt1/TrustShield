@@ -124,59 +124,69 @@ namespace db_tsh.Controllers
         [HttpPost]
         public async Task<ActionResult> RegisterOrLogin(Customer cust, string email, string password)
         {
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            using (NpgsqlConnection sqlcon = await OpenDatabaseConnectionAsync())
+            // Early exit if email or password is null or empty
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
-                if (email == null || password == null)
-                {
-                    // Display an error message if either the username or password is missing.
-                    ViewData["message"] = "Please enter both username and password.";
-                    cust.success = 0;
-                    sqlcon.Close();
-                    return View();
-                }
+                // Display an error message if either the username or password is missing.
+                ViewData["message"] = "Please enter both username and password.";
+                cust.success = 0;
+                return View();
+            }
 
-                string query = "SELECT email, password FROM project.customer WHERE email = @Email AND password = @Password";
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, sqlcon))
+            try
+            {
+                // Use the helper method to get a connection
+                using (NpgsqlConnection sqlcon = await OpenDatabaseConnectionAsync())
                 {
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Password", password);
-
-                    using (NpgsqlDataReader sdr = cmd.ExecuteReader())
+                    string query = "SELECT email, password FROM project.customer WHERE email = @Email AND password = @Password";
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, sqlcon))
                     {
-                        if (sdr.Read())
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        cmd.Parameters.AddWithValue("@Password", password);
+
+                        using (NpgsqlDataReader sdr = await cmd.ExecuteReaderAsync())
                         {
-                            var claims = new List<Claim>
+                            if (sdr.Read()) // If user found
                             {
-                                new Claim(ClaimTypes.Name, email)
-                                // You can add more claims as needed.
-                            };
-
-                            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                            var authProperties = new AuthenticationProperties
-                            {
-                                // You can customize authentication properties if needed.
-                            };
-
-                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-
-                            ViewData["message"] = "User logged in successfully";
-                            cust.success = 1;
-                            sqlcon.Close();
-                            return RedirectToAction("Index", "Home");
-                        }
-                        else
+                                var claims = new List<Claim>
                         {
-                            ViewBag.Errorpass = "Email and password are wrong!";
-                            cust.success = 0;
-                            sqlcon.Close();
-                            return View();
+                            new Claim(ClaimTypes.Name, email)
+                            // You can add more claims as needed.
+                        };
+
+                                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                                var authProperties = new AuthenticationProperties
+                                {
+                                    // You can customize authentication properties if needed.
+                                };
+
+                                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                                ViewData["message"] = "User logged in successfully";
+                                cust.success = 1;
+
+                                // No need to explicitly close the connection
+                                return RedirectToAction("Index", "Home");
+                            }
+                            else // User not found
+                            {
+                                ViewBag.Errorpass = "Email and password are incorrect!";
+                                cust.success = 0;
+                                return View();
+                            }
                         }
                     }
                 }
             }
-
+            catch (Exception ex)
+            {
+                // Log the exception or handle error
+                ViewData["message"] = "An error occurred while logging in: " + ex.Message;
+                cust.success = 0;
+                return View();
+            }
         }
+
 
 
         [HttpGet]
