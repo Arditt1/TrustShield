@@ -17,5 +17,7 @@ namespace db_tsh.Models
 
         
         public string Valuet { get; set; }
+
+        public int TypePol { get; set; }
     }
 }

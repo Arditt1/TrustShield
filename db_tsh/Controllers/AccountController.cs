@@ -25,36 +25,16 @@ namespace db_tsh.Controllers
 
         private async Task<NpgsqlConnection> OpenDatabaseConnectionAsync()
         {
-            // Get SSH and DB connection info from appsettings.json
-            var sshHost = _configuration["SSH:Host"];
-            var sshUser = _configuration["SSH:Username"];
-            var sshPassword = _configuration["SSH:Password"];
-            var sshPort = int.Parse(_configuration["SSH:Port"]);
-
-            var dbHost = "localhost";  // As SSH tunnel will forward to localhost
-            var dbPort = 5432;         // Default PostgreSQL port
+            var dbPort = 9999;         // Default PostgreSQL port
             var dbUser = _configuration["ConnectionStrings:DefaultConnection"].Split(';')[2].Split('=')[1];
             var dbPassword = _configuration["ConnectionStrings:DefaultConnection"].Split(';')[3].Split('=')[1];
             var dbName = _configuration["ConnectionStrings:DefaultConnection"].Split(';')[4].Split('=')[1];
 
-            // Set up the SSH tunnel using SSH.NET
-            using (var sshClient = new SshClient(sshHost, sshPort, sshUser, sshPassword))
-            {
-                sshClient.Connect();
-                var portForwarded = new ForwardedPortLocal("localhost", (uint)dbPort, dbHost, (uint)dbPort);
-                sshClient.AddForwardedPort(portForwarded);
-                portForwarded.Start();
+            var connectionString = $"Host=localhost;Port={dbPort};Username={dbUser};Password={dbPassword};Database={dbName}";
 
-                Console.WriteLine("SSH Tunnel established.");
-
-                // Create the PostgreSQL connection string
-                var connectionString = $"Host=localhost;Port={dbPort};Username={dbUser};Password={dbPassword};Database={dbName}";
-
-                // Open and return the PostgreSQL connection
-                var conn = new NpgsqlConnection(connectionString);
-                await conn.OpenAsync();
-                return conn;
-            }
+            var conn = new NpgsqlConnection(connectionString);
+            await conn.OpenAsync();
+            return conn;
         }
 
         // Other actions...
@@ -85,9 +65,9 @@ namespace db_tsh.Controllers
                     using (NpgsqlCommand checkEmailCmd = new NpgsqlCommand(checkEmailQuery, con))
                     {
                         checkEmailCmd.Parameters.AddWithValue("@Email", cust.Email);
-                        int existingEmailCount = (int)checkEmailCmd.ExecuteScalar();
+                        object existingEmailCount = checkEmailCmd.ExecuteScalar();
 
-                        if (existingEmailCount > 0)
+                        if (existingEmailCount != DBNull.Value && Convert.ToInt32(existingEmailCount) > 0)
                         {
                             ModelState.AddModelError(string.Empty, "Email is already registered.");
                             return View(cust);
@@ -95,13 +75,13 @@ namespace db_tsh.Controllers
                     }
 
                     // Insert new user into the database
-                    string insertUserQuery = "INSERT INTO project.customer (name, email, password, type) VALUES (@Name, @Email, @Password, 1)";
+                    string insertUserQuery = "INSERT INTO project.customer (name, email, password, type) VALUES (@Name, @Email, @Password, true)";
                     using (NpgsqlCommand insertUserCmd = new NpgsqlCommand(insertUserQuery, con))
                     {
                         insertUserCmd.Parameters.AddWithValue("@Name", cust.Name);
                         insertUserCmd.Parameters.AddWithValue("@Email", cust.Email);
                         insertUserCmd.Parameters.AddWithValue("@Password", cust.Password);
-                        int rowsAffected = insertUserCmd.ExecuteNonQuery();
+                        int rowsAffected = (int)insertUserCmd.ExecuteNonQuery();
 
                         if (rowsAffected > 0)
                         {

@@ -33,36 +33,16 @@ namespace db_tsh.Controllers
 
         private async Task<NpgsqlConnection> OpenDatabaseConnectionAsync()
         {
-            // Get SSH and DB connection info from appsettings.json
-            var sshHost = _configuration["SSH:Host"];
-            var sshUser = _configuration["SSH:Username"];
-            var sshPassword = _configuration["SSH:Password"];
-            var sshPort = int.Parse(_configuration["SSH:Port"]);
-
-            var dbHost = "localhost";  // As SSH tunnel will forward to localhost
-            var dbPort = 5432;         // Default PostgreSQL port
+            var dbPort = 9999;
             var dbUser = _configuration["ConnectionStrings:DefaultConnection"].Split(';')[2].Split('=')[1];
             var dbPassword = _configuration["ConnectionStrings:DefaultConnection"].Split(';')[3].Split('=')[1];
             var dbName = _configuration["ConnectionStrings:DefaultConnection"].Split(';')[4].Split('=')[1];
 
-            // Set up the SSH tunnel using SSH.NET
-            using (var sshClient = new SshClient(sshHost, sshPort, sshUser, sshPassword))
-            {
-                sshClient.Connect();
-                var portForwarded = new ForwardedPortLocal("localhost", (uint)dbPort, dbHost, (uint)dbPort);
-                sshClient.AddForwardedPort(portForwarded);
-                portForwarded.Start();
+            var connectionString = $"Host=localhost;Port={dbPort};Username={dbUser};Password={dbPassword};Database={dbName}";
 
-                Console.WriteLine("SSH Tunnel established.");
-
-                // Create the PostgreSQL connection string
-                var connectionString = $"Host=localhost;Port={dbPort};Username={dbUser};Password={dbPassword};Database={dbName}";
-
-                // Open and return the PostgreSQL connection
-                var conn = new NpgsqlConnection(connectionString);
-                await conn.OpenAsync();
-                return conn;
-            }
+            var conn = new NpgsqlConnection(connectionString);
+            await conn.OpenAsync();
+            return conn;
         }
 
 
@@ -107,7 +87,7 @@ namespace db_tsh.Controllers
 
             using (var con = await OpenDatabaseConnectionAsync())
             {
-                con.Open();
+                //con.Open();
                 string query = string.Format(@"
             SELECT p.p_id, 
                 CASE 
@@ -126,7 +106,7 @@ namespace db_tsh.Controllers
             left join project.pol_dog pd on p.p_id =pd.policy
             LEFT JOIN project.customer c ON pd.c_id = c.c_id--OR t.o_embg = c.c_id
             LEFT JOIN project.package pkg ON p.package = pkg.code
-            {0}", userwhere);
+            {0} order by p_id desc", userwhere);
 
                 NpgsqlCommand com = new NpgsqlCommand(query, con);
                 NpgsqlDataAdapter sqlda = new NpgsqlDataAdapter(com);
@@ -179,7 +159,7 @@ namespace db_tsh.Controllers
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             NpgsqlConnection sqlcon = await OpenDatabaseConnectionAsync();
-            sqlcon.Open();
+            //sqlcon.Open();
             string query = "";
 
             // Check if the user is "a@trustshield.com"
@@ -236,7 +216,7 @@ namespace db_tsh.Controllers
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
             NpgsqlConnection sqlcon = await OpenDatabaseConnectionAsync();
-            sqlcon.Open();
+            //sqlcon.Open();
             string dropdown_params = string.Empty;
             if (dropdown != null)
                 dropdown_params = string.Format(" and c.email = '{0}'", dropdown);
@@ -356,21 +336,23 @@ namespace db_tsh.Controllers
                     string connectionString = _configuration.GetConnectionString("DefaultConnection");
                     using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                     {
-                        con.Open();
-
                         DateTime startDate = DateTime.Parse(Request.Form["startDate"]);
                         DateTime enddate = startDate.AddYears(1);
 
-                        // Insert data into Policy table with automatic ID generation
-                        string insertPolicyQuery = "INSERT INTO project.Policy (sdate, edate, package) OUTPUT INSERTED.p_id VALUES (@Sdate, @Edate, 5)";
+                        // Insert data into Policy table and get p_id (use RETURNING to get the inserted ID in PostgreSQL)
+                        string insertPolicyQuery = "INSERT INTO project.Policy (sdate, edate, package) " +
+                                                   "VALUES (@Sdate, @Edate, 5) " +
+                                                   "RETURNING p_id";
                         using (NpgsqlCommand insertPolicyCmd = new NpgsqlCommand(insertPolicyQuery, con))
                         {
                             insertPolicyCmd.Parameters.AddWithValue("@Sdate", startDate);
-                            insertPolicyCmd.Parameters.AddWithValue("@Edate", enddate); // Example end date: 1 year from now
+                            insertPolicyCmd.Parameters.AddWithValue("@Edate", enddate);
                             int p_id = (int)insertPolicyCmd.ExecuteScalar();
 
-                            // Insert data into Auto_pol table with automatic ID generation
-                            string insertPolAutoQuery = "INSERT INTO project.Auto_pol (pol_id) OUTPUT INSERTED.a_id VALUES (@Pol_Id)";
+                            // Insert data into Auto_pol table and get a_id (again using RETURNING)
+                            string insertPolAutoQuery = "INSERT INTO project.Auto_pol (pol_id) " +
+                                                        "VALUES (@Pol_Id) " +
+                                                        "RETURNING a_id";
                             using (NpgsqlCommand insertPolAutoCmd = new NpgsqlCommand(insertPolAutoQuery, con))
                             {
                                 insertPolAutoCmd.Parameters.AddWithValue("@Pol_Id", p_id);
@@ -378,30 +360,32 @@ namespace db_tsh.Controllers
 
                                 // Insert data into Vehicle table
                                 string insertVehicleQuery = "INSERT INTO project.Vehicle (policy, type, marka, model, license_plate) " +
-                                    "VALUES (@Policy, @Type, @Marka, @Model, @LicensePlate)";
+                                                            "VALUES (@Policy, @Type, @Marka, @Model, @LicensePlate)";
                                 using (NpgsqlCommand insertVehicleCmd = new NpgsqlCommand(insertVehicleQuery, con))
                                 {
                                     insertVehicleCmd.Parameters.AddWithValue("@Policy", a_id);
                                     insertVehicleCmd.Parameters.AddWithValue("@Type", veh.Type);
                                     insertVehicleCmd.Parameters.AddWithValue("@Marka", veh.Marka);
                                     insertVehicleCmd.Parameters.AddWithValue("@Model", veh.Model);
-                                    insertVehicleCmd.Parameters.AddWithValue("@LicensePlate", veh.License_Plate); // Ensure this parameter is properly added
+                                    insertVehicleCmd.Parameters.AddWithValue("@LicensePlate", veh.License_Plate);
                                     insertVehicleCmd.ExecuteNonQuery();
                                 }
 
-                                string insertdog = @"insert into project.pol_dog (d_embg ,c_id, name, policy, birthdate)
-                                                select @a_id,c_id, name, @Policy, getdate() from project.Customer where email=@email ";
-                                using (NpgsqlCommand insertDogCmd = new NpgsqlCommand(insertdog, con))
+                                // Insert data into pol_dog table
+                                string insertDogQuery = @"INSERT INTO project.pol_dog (d_embg, c_id, name, policy, birthdate)
+                                                SELECT @a_id, c_id, name, @Policy, CURRENT_DATE 
+                                                FROM project.Customer WHERE email = @Email";
+                                using (NpgsqlCommand insertDogCmd = new NpgsqlCommand(insertDogQuery, con))
                                 {
                                     insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
-                                    insertDogCmd.Parameters.AddWithValue("@email", User.Identity.Name);
-                                    insertDogCmd.Parameters.AddWithValue("@a_id", a_id+1);
+                                    insertDogCmd.Parameters.AddWithValue("@Email", User.Identity.Name);
+                                    insertDogCmd.Parameters.AddWithValue("@a_id", a_id + 1); // a_id + 1 as per your logic
                                     insertDogCmd.ExecuteNonQuery();
                                 }
-                                return RedirectToAction("Payment", new { policyId = a_id});
+
+                                return RedirectToAction("Payment", new { policyId = a_id });
                             }
                         }
-
                     }
                 }
                 catch (Exception ex)
@@ -414,15 +398,13 @@ namespace db_tsh.Controllers
         }
 
 
+        [HttpGet]
         public async Task<IActionResult> TravelAsync()
         {
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            // Query the database to retrieve packages data
-            List<Package> packages = new List<Package>(); // Replace Package with your actual model class
+            List<Package> packages = new List<Package>();
             using (NpgsqlConnection con = await OpenDatabaseConnectionAsync()) // Replace NpgsqlConnection with your database connection type
             {
-                con.Open();
-                string query = "SELECT code, title FROM project.Package where type_pol=1";
+                string query = "SELECT code, title FROM project.Package WHERE type_pol = 1";
                 using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                 {
                     using (NpgsqlDataReader reader = cmd.ExecuteReader())
@@ -443,6 +425,7 @@ namespace db_tsh.Controllers
             // Return the view
             return View();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> TravelAsync(Osi polOsi)
@@ -454,8 +437,6 @@ namespace db_tsh.Controllers
                     string connectionString = _configuration.GetConnectionString("DefaultConnection");
                     using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                     {
-                        con.Open();
-
                         int packageId = int.Parse(Request.Form["package"]);
 
                         // Calculate end date based on the selected start date and number of days
@@ -463,10 +444,10 @@ namespace db_tsh.Controllers
                         int numberOfDays = int.Parse(Request.Form["numberOfDays"]);
                         DateTime endDate = startDate.AddDays(numberOfDays);
 
-                        // Insert data into Policy table with automatic ID generation
+                        // Insert data into Policy table with automatic ID generation and returning the p_id
                         string insertPolicyQuery = "INSERT INTO project.Policy (sdate, edate, package) " +
-                            "OUTPUT INSERTED.p_id " +
-                            "VALUES (@Sdate, @Edate, @Package)";
+                                                   "VALUES (@Sdate, @Edate, @Package) " +
+                                                   "RETURNING p_id";
                         using (NpgsqlCommand insertPolicyCmd = new NpgsqlCommand(insertPolicyQuery, con))
                         {
                             insertPolicyCmd.Parameters.AddWithValue("@Sdate", startDate);
@@ -474,10 +455,10 @@ namespace db_tsh.Controllers
                             insertPolicyCmd.Parameters.AddWithValue("@Package", packageId);
                             int p_id = (int)insertPolicyCmd.ExecuteScalar();
 
-                            // Insert data into PolTravel table with automatic ID generation
+                            // Insert data into PolTravel table and return tr_id
                             string insertPolTravelQuery = "INSERT INTO project.Travel_pol (pol_id) " +
-                                "OUTPUT INSERTED.tr_id " +
-                                "VALUES (@Pol_Id)";
+                                                          "VALUES (@Pol_Id) " +
+                                                          "RETURNING tr_id";
                             using (NpgsqlCommand insertPolTravelCmd = new NpgsqlCommand(insertPolTravelQuery, con))
                             {
                                 insertPolTravelCmd.Parameters.AddWithValue("@Pol_Id", p_id);
@@ -485,7 +466,7 @@ namespace db_tsh.Controllers
 
                                 // Insert data into PolOsi table
                                 string insertPolOsiQuery = "INSERT INTO project.Pol_osi (o_embg, policy, name, surname, birthdate, kontakt) " +
-                                    "VALUES (@O_Embg, @Policy, @Name, @Surname, @Birthdate, @Kontakt)";
+                                                           "VALUES (@O_Embg, @Policy, @Name, @Surname, @Birthdate, @Kontakt)";
                                 using (NpgsqlCommand insertPolOsiCmd = new NpgsqlCommand(insertPolOsiQuery, con))
                                 {
                                     insertPolOsiCmd.Parameters.AddWithValue("@O_Embg", polOsi.OEmbg);
@@ -496,25 +477,24 @@ namespace db_tsh.Controllers
                                     insertPolOsiCmd.Parameters.AddWithValue("@Kontakt", polOsi.Kontakt);
                                     insertPolOsiCmd.ExecuteNonQuery();
                                 }
-                                string insertdog = @"INSERT INTO project.pol_dog (d_embg, c_id, name, policy, birthdate)
-                                            SELECT @tr_id, c_id, name, @Policy, GETDATE() 
-                                            FROM project.Customer 
-                                            WHERE email = @email";
-                                using (NpgsqlCommand insertDogCmd = new NpgsqlCommand(insertdog, con))
+
+                                // Insert data into pol_dog table
+                                string insertDogQuery = @"INSERT INTO project.pol_dog (d_embg, c_id, name, policy, birthdate)
+                                                SELECT @tr_id, c_id, name, @Policy, CURRENT_DATE 
+                                                FROM project.Customer 
+                                                WHERE email = @email";
+                                using (NpgsqlCommand insertDogCmd = new NpgsqlCommand(insertDogQuery, con))
                                 {
                                     insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
                                     insertDogCmd.Parameters.AddWithValue("@email", User.Identity.Name);
-                                    insertDogCmd.Parameters.AddWithValue("@tr_id", tr_id+3);
+                                    insertDogCmd.Parameters.AddWithValue("@tr_id", tr_id + 3); // tr_id + 3 as per your logic
                                     insertDogCmd.ExecuteNonQuery();
                                 }
 
-                                return RedirectToAction("Payment", new { policyId = tr_id,  package = packageId });
+                                // Redirect to Payment action with policyId and packageId
+                                return RedirectToAction("Payment", new { policyId = tr_id, package = packageId });
                             }
                         }
-
-                        //return RedirectToAction("Index");
-
-
                     }
                 }
                 catch (Exception ex)
@@ -523,21 +503,17 @@ namespace db_tsh.Controllers
                     // Log the exception if needed
                 }
             }
+
             return View(polOsi);
         }
 
-
         [HttpGet]
-
         public async Task<IActionResult> Property()
         {
-            string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            // Query the database to retrieve packages data
-            List<Package> packages = new List<Package>(); // Replace Package with your actual model class
-            using (NpgsqlConnection con = await OpenDatabaseConnectionAsync()) // Replace NpgsqlConnection with your database connection type
+            List<Package> packages = new List<Package>();
+            using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
             {
-                con.Open();
-                string query = "SELECT code, title FROM project.Package where type_pol=2";
+                string query = "SELECT code, title FROM project.Package WHERE type_pol = 2";
                 using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                 {
                     using (NpgsqlDataReader reader = cmd.ExecuteReader())
@@ -546,20 +522,16 @@ namespace db_tsh.Controllers
                         {
                             int code = reader.GetInt32(0);
                             string title = reader.GetString(1);
-                            packages.Add(new Package { Code = code, Title = title }); // Replace Package with your actual model class
+                            packages.Add(new Package { Code = code, Title = title });
                         }
                     }
                 }
             }
-
-            // Store packages data in ViewBag
             ViewBag.Packages = packages;
-
-            // Return the view
             return View();
         }
 
-        // POST: Insert or Update Property and Policy association
+
         [HttpPost]
         public async Task<IActionResult> Property(Property property)
         {
@@ -570,17 +542,13 @@ namespace db_tsh.Controllers
 
                 using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                 {
-                    await con.OpenAsync();
-
-                    // Calculate end date based on the selected start date and number of days
                     DateTime startDate = DateTime.Parse(Request.Form["startDate"]);
                     int numberOfDays = int.Parse(Request.Form["numberOfDays"]);
                     DateTime endDate = startDate.AddDays(numberOfDays);
 
-                    // Insert data into Policy table with automatic ID generation
                     string insertPolicyQuery = "INSERT INTO project.Policy (sdate, edate, package) " +
-                                               "OUTPUT INSERTED.p_id " +
-                                               "VALUES (@Sdate, @Edate, @Package)";
+                                               "VALUES (@Sdate, @Edate, @Package) " +
+                                               "RETURNING p_id";
                     int p_id;
                     using (NpgsqlCommand insertPolicyCmd = new NpgsqlCommand(insertPolicyQuery, con))
                     {
@@ -590,16 +558,16 @@ namespace db_tsh.Controllers
                         p_id = (int)insertPolicyCmd.ExecuteScalar(); // Get the policy ID (p_id)
                     }
 
-                    // Handle Property and Policy association (Insert into Property_pol)
                     int pr_id = 0;
-                    string policyQuery = "INSERT INTO project.Property_pol (pol_id) OUTPUT INSERTED.pr_id VALUES (@pol_id)";
+                    string policyQuery = "INSERT INTO project.Property_pol (pol_id) " +
+                                         "VALUES (@pol_id) " +
+                                         "RETURNING pr_id";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(policyQuery, con))
                     {
                         cmd.Parameters.AddWithValue("@pol_id", p_id); // Use p_id from Policy table
                         pr_id = (int)cmd.ExecuteScalar(); // Get the generated pr_id for Property_pol
                     }
 
-                    // Insert into Property table
                     string query = "INSERT INTO project.Property (policy, address, floor, year_build, security) " +
                                    "VALUES (@policy, @address, @floor, @year_build, @security)";
 
@@ -614,14 +582,14 @@ namespace db_tsh.Controllers
                         cmd.ExecuteNonQuery(); // Insert into Property table
                     }
 
-                    // Insert related dog data into the pol_dog table
                     string insertdog = @"INSERT INTO project.pol_dog (d_embg, c_id, name, policy, birthdate)
-                             SELECT @a_id, c_id, name, @Policy, GETDATE() FROM project.Customer WHERE email=@email";
+                                 SELECT @a_id, c_id, name, @Policy, CURRENT_DATE
+                                 FROM project.Customer WHERE email=@email";
                     using (NpgsqlCommand insertDogCmd = new NpgsqlCommand(insertdog, con))
                     {
                         insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
                         insertDogCmd.Parameters.AddWithValue("@email", User.Identity.Name);
-                        insertDogCmd.Parameters.AddWithValue("@a_id", pr_id + 1);
+                        insertDogCmd.Parameters.AddWithValue("@a_id", pr_id + 1); // pr_id + 1 as per your logic
                         insertDogCmd.ExecuteNonQuery();
                     }
 
@@ -638,6 +606,7 @@ namespace db_tsh.Controllers
 
 
 
+
         [HttpGet]
         public async Task<IActionResult> Package()
         {
@@ -649,7 +618,6 @@ namespace db_tsh.Controllers
 
                 using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                 {
-                    await con.OpenAsync();
                     string query = "SELECT * FROM project.package"; // Adjust query to fetch all packages
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                     {
@@ -661,7 +629,8 @@ namespace db_tsh.Controllers
                                 Code = (int)reader["Code"],
                                 Title = (string)reader["Title"],
                                 Total = reader["Total"] as decimal?,
-                                Valuet = (string)reader["Valuet"]
+                                Valuet = (string)reader["Valuet"],
+                                TypePol = (int)reader["type_pol"] // Read the policy type
                             };
                             packages.Add(package);
                         }
@@ -685,36 +654,41 @@ namespace db_tsh.Controllers
             {
                 try
                 {
-                    string connectionString = _configuration.GetConnectionString("DefaultConnection");
-
                     using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                     {
-                        await con.OpenAsync();
-
                         if (package.Code == 0) // New package (insert)
                         {
-                            string insertQuery = "INSERT INTO project.package (Title, Total, Valuet) " +
-                                                 "VALUES (@Title, @Total, @Valuet)";
+                            string insertQuery = "INSERT INTO project.package (Title, Total, Valuet, Type_Pol) " +
+                                                 "VALUES (@Title, @Total, @Valuet, @TypePol)";
 
                             using (NpgsqlCommand cmd = new NpgsqlCommand(insertQuery, con))
                             {
                                 cmd.Parameters.AddWithValue("@Title", package.Title);
                                 cmd.Parameters.AddWithValue("@Total", package.Total);
                                 cmd.Parameters.AddWithValue("@Valuet", package.Valuet);
+                                cmd.Parameters.AddWithValue("@TypePol", package.TypePol);
 
                                 await cmd.ExecuteNonQueryAsync();
                             }
                         }
-                        else // Existing package (update)
+                        else
                         {
                             string updateQuery = "UPDATE project.package SET Title = @Title, Total = @Total, Valuet = @Valuet " +
                                                  "WHERE Code = @Code";
+
+                            string typepolquery = string.Format("select type_pol from project.Package where code={0}", package.Code);
+                            using (NpgsqlCommand cmd1 = new NpgsqlCommand(typepolquery, con))
+                            {
+                                int type = (int)cmd1.ExecuteScalar();
+                                package.TypePol = type;
+                            }
 
                             using (NpgsqlCommand cmd = new NpgsqlCommand(updateQuery, con))
                             {
                                 cmd.Parameters.AddWithValue("@Title", package.Title);
                                 cmd.Parameters.AddWithValue("@Total", package.Total);
                                 cmd.Parameters.AddWithValue("@Valuet", package.Valuet);
+                                cmd.Parameters.AddWithValue("@TypePol", package.TypePol);
                                 cmd.Parameters.AddWithValue("@Code", package.Code);
 
                                 await cmd.ExecuteNonQueryAsync();
@@ -746,8 +720,6 @@ namespace db_tsh.Controllers
 
                 using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                 {
-                    await con.OpenAsync();
-
                     // Query to fetch packages
                     string query = "SELECT code, title FROM project.Package";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
@@ -766,10 +738,8 @@ namespace db_tsh.Controllers
 
                 using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                 {
-                    await con.OpenAsync();
-
                     // Query to fetch packages
-                    string query = "SELECT (select title from project.Package where code=pc.package) as package_name,pc.* FROM project.covers pc";
+                    string query = "SELECT (select title from project.Package where code=CAST(pc.package AS INTEGER)) as package_name,pc.* FROM project.covers pc";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                     {
                         NpgsqlDataReader reader = await cmd.ExecuteReaderAsync();
@@ -809,7 +779,15 @@ namespace db_tsh.Controllers
 
                 using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                 {
-                    await con.OpenAsync();
+                    
+                    string package = null;
+                    if (cover.cov_id > 0)
+                    {
+                        package = string.Format("select code from project.Package where title='{0}'", cover.package_code);
+                        NpgsqlCommand cmd1 = new NpgsqlCommand(package, con);
+                        object result = cmd1.ExecuteScalar();
+                        cover.package_code = result.ToString();
+                    }
 
                     // If the cover has a valid id, we're updating an existing cover, otherwise, it's a new cover (insert)
                     string query;
@@ -840,7 +818,7 @@ namespace db_tsh.Controllers
                         int result = await cmd.ExecuteNonQueryAsync();
                         if (result > 0)
                         {
-                            return RedirectToAction(nameof(IndexAsync)); // Redirect after success
+                            return RedirectToAction("Covers"); // Redirect after success
                         }
                         else
                         {
@@ -940,7 +918,7 @@ namespace db_tsh.Controllers
                             cmd.Parameters.AddWithValue("@VisaNumber", model.VisaNumber);
 
                             // Execute the query
-                            int rowsAffected = cmd.ExecuteNonQuery();
+                            int rowsAffected = (int)cmd.ExecuteNonQuery();
 
                             if (rowsAffected > 0)
                             {
