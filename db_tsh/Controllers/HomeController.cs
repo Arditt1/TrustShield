@@ -225,9 +225,10 @@ LEFT JOIN project.package pkg ON p.package = pkg.code
                 dropdown_params = string.Format(" and c.email = '{0}'", dropdown);
 
             string query = string.Format(@"SELECT p.p_id, 
-                CASE 
-                    WHEN v.pol_id IS NOT NULL THEN 'Auto Policy'
-                    ELSE 'Travel Health'
+       CASE 
+           WHEN v.pol_id IS NOT NULL THEN 'Auto Policy'
+           WHEN t.pol_id IS NOT NULL THEN 'Travel Health'
+           ELSE 'Property Policy'
                 END AS PolicyType,
                 c.name AS CustomerName,
                 p.sdate AS StartDate,
@@ -238,6 +239,7 @@ LEFT JOIN project.package pkg ON p.package = pkg.code
             FROM project.policy p
             LEFT JOIN project.Auto_pol v ON p.p_id = v.pol_id
             LEFT JOIN project.Travel_pol t ON p.p_id = t.pol_id
+            LEFT JOIN project.property_pol pp ON p.p_id = pp.pr_id 
             left join project.pol_dog pd on p.p_id =pd.policy
             LEFT JOIN project.customer c ON pd.c_id = c.c_id--OR t.o_embg = c.c_id
             LEFT JOIN project.package pkg ON p.package = pkg.code
@@ -263,7 +265,6 @@ LEFT JOIN project.package pkg ON p.package = pkg.code
                 NpgsqlCommand command = new NpgsqlCommand(query, connection);
                 NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(command);
 
-                connection.Open();
                 adapter.Fill(dataTable);
                 connection.Close();
             }
