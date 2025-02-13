@@ -89,24 +89,27 @@ namespace db_tsh.Controllers
             {
                 //con.Open();
                 string query = string.Format(@"
-            SELECT p.p_id, 
-                CASE 
-                    WHEN v.pol_id IS NOT NULL THEN 'Auto Policy'
-                    ELSE 'Travel Health'
-                END AS PolicyType,
-                c.name AS CustomerName,
-                p.sdate AS StartDate,
-                p.edate AS EndDate,
-                p.package AS PackageCode,
-                pkg.title AS PackageTitle,
-                pkg.total AS PackageTotal
-            FROM project.policy p
-            LEFT JOIN project.Auto_pol v ON p.p_id = v.pol_id
-            LEFT JOIN project.Travel_pol t ON p.p_id = t.pol_id
-            left join project.pol_dog pd on p.p_id =pd.policy
-            LEFT JOIN project.customer c ON pd.c_id = c.c_id--OR t.o_embg = c.c_id
-            LEFT JOIN project.package pkg ON p.package = pkg.code
-            {0} order by p_id desc", userwhere);
+SELECT p.p_id, 
+       CASE 
+           WHEN v.pol_id IS NOT NULL THEN 'Auto Policy'
+           WHEN t.pol_id IS NOT NULL THEN 'Travel Health'
+           ELSE 'Property Policy'
+       END AS PolicyType,
+       c.name AS CustomerName,
+       p.sdate AS StartDate,
+       p.edate AS EndDate,
+       p.package AS PackageCode,
+       pkg.title AS PackageTitle,
+       pkg.total AS PackageTotal
+FROM project.policy p
+LEFT JOIN project.Auto_pol v ON p.p_id = v.pol_id
+LEFT JOIN project.Travel_pol t ON p.p_id = t.pol_id
+LEFT JOIN project.property_pol pp ON p.p_id = pp.pr_id 
+LEFT JOIN project.pol_dog pd ON p.p_id = pd.policy
+LEFT JOIN project.customer c ON pd.c_id = c.c_id --OR t.o_embg = c.c_id
+LEFT JOIN project.package pkg ON p.package = pkg.code
+{0} ORDER BY p.p_id DESC;
+", userwhere);
 
                 NpgsqlCommand com = new NpgsqlCommand(query, con);
                 NpgsqlDataAdapter sqlda = new NpgsqlDataAdapter(com);
@@ -341,7 +344,7 @@ namespace db_tsh.Controllers
 
                         // Insert data into Policy table and get p_id (use RETURNING to get the inserted ID in PostgreSQL)
                         string insertPolicyQuery = "INSERT INTO project.Policy (sdate, edate, package) " +
-                                                   "VALUES (@Sdate, @Edate, 5) " +
+                                                   "VALUES (@Sdate, @Edate, 4) " +
                                                    "RETURNING p_id";
                         using (NpgsqlCommand insertPolicyCmd = new NpgsqlCommand(insertPolicyQuery, con))
                         {
@@ -379,11 +382,11 @@ namespace db_tsh.Controllers
                                 {
                                     insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
                                     insertDogCmd.Parameters.AddWithValue("@Email", User.Identity.Name);
-                                    insertDogCmd.Parameters.AddWithValue("@a_id", a_id + 1); // a_id + 1 as per your logic
+                                    insertDogCmd.Parameters.AddWithValue("@a_id", p_id); // a_id + 1 as per your logic
                                     insertDogCmd.ExecuteNonQuery();
                                 }
 
-                                return RedirectToAction("Payment", new { policyId = a_id });
+                                return RedirectToAction("Payment", new { policyId = p_id, package = 4 });
                             }
                         }
                     }
@@ -487,12 +490,12 @@ namespace db_tsh.Controllers
                                 {
                                     insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
                                     insertDogCmd.Parameters.AddWithValue("@email", User.Identity.Name);
-                                    insertDogCmd.Parameters.AddWithValue("@tr_id", tr_id + 3); // tr_id + 3 as per your logic
+                                    insertDogCmd.Parameters.AddWithValue("@tr_id", p_id); // tr_id + 3 as per your logic
                                     insertDogCmd.ExecuteNonQuery();
                                 }
 
                                 // Redirect to Payment action with policyId and packageId
-                                return RedirectToAction("Payment", new { policyId = tr_id, package = packageId });
+                                return RedirectToAction("Payment", new { policyId = p_id, package = packageId });
                             }
                         }
                     }
@@ -577,7 +580,7 @@ namespace db_tsh.Controllers
                         cmd.Parameters.AddWithValue("@address", property.Address);
                         cmd.Parameters.AddWithValue("@floor", property.Floor);
                         cmd.Parameters.AddWithValue("@year_build", property.YearBuild);
-                        cmd.Parameters.AddWithValue("@security", property.Security);
+                        cmd.Parameters.AddWithValue("@security", true);
 
                         cmd.ExecuteNonQuery(); // Insert into Property table
                     }
@@ -589,7 +592,7 @@ namespace db_tsh.Controllers
                     {
                         insertDogCmd.Parameters.AddWithValue("@Policy", p_id);
                         insertDogCmd.Parameters.AddWithValue("@email", User.Identity.Name);
-                        insertDogCmd.Parameters.AddWithValue("@a_id", pr_id + 1); // pr_id + 1 as per your logic
+                        insertDogCmd.Parameters.AddWithValue("@a_id", p_id); // pr_id + 1 as per your logic
                         insertDogCmd.ExecuteNonQuery();
                     }
 
@@ -850,8 +853,6 @@ namespace db_tsh.Controllers
                 {
                     using (NpgsqlConnection conn = await OpenDatabaseConnectionAsync())
                     {
-                        // Open the connection
-                        conn.Open();
 
                         // Create and configure the SQL command
                         using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
@@ -906,9 +907,6 @@ namespace db_tsh.Controllers
 
                     using (NpgsqlConnection conn = await OpenDatabaseConnectionAsync())
                     {
-                        // Open the connection
-                        conn.Open();
-
                         // Create and configure the SQL command
                         using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                         {
