@@ -335,11 +335,13 @@ LEFT JOIN project.package pkg ON p.package = pkg.code
         {
             if (ModelState.IsValid)
             {
+                NpgsqlTransaction transaction = null;
                 try
                 {
                     string connectionString = _configuration.GetConnectionString("DefaultConnection");
                     using (NpgsqlConnection con = await OpenDatabaseConnectionAsync())
                     {
+                        transaction = (NpgsqlTransaction)await con.BeginTransactionAsync();
                         DateTime startDate = DateTime.Parse(Request.Form["startDate"]);
                         DateTime enddate = startDate.AddYears(1);
 
@@ -386,7 +388,7 @@ LEFT JOIN project.package pkg ON p.package = pkg.code
                                     insertDogCmd.Parameters.AddWithValue("@a_id", p_id); // a_id + 1 as per your logic
                                     insertDogCmd.ExecuteNonQuery();
                                 }
-
+                                await transaction.CommitAsync();
                                 return RedirectToAction("Payment", new { policyId = p_id, package = 4 });
                             }
                         }
@@ -394,6 +396,10 @@ LEFT JOIN project.package pkg ON p.package = pkg.code
                 }
                 catch (Exception ex)
                 {
+                    if (transaction != null)
+                    {
+                        await transaction.RollbackAsync();
+                    }
                     ModelState.AddModelError(string.Empty, "An error occurred while creating the auto policy.");
                     // Log the exception if needed
                 }
