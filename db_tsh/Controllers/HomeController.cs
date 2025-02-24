@@ -72,46 +72,34 @@ namespace db_tsh.Controllers
         public async Task<IActionResult> IndexAsync(int? page)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            //List<Customer> cl = new List<Customer>();
+
             string userwhere = "";
             if (User.Identity.IsAuthenticated)
-            { // Retrieve the user ID
+            {
+                // Retrieve the user email
                 string userEmail = User.Identity.Name;
-                userwhere = string.Format("where c.email='{0}'", userEmail);
+                userwhere = string.Format("WHERE c.email=''{0}''", userEmail);
+
+                // Special case for the admin user
                 if (userEmail == "a@trustshield.com")
-                    userwhere = "";
+                    userwhere = ""; // No filtering for admin
             }
-            
+
             if (User.Identity.Name == "a@trustshield.com")
                 ViewBag.isadmin = "Yes";
 
             using (var con = await OpenDatabaseConnectionAsync())
             {
-                //con.Open();
-                string query = string.Format(@"
-SELECT p.p_id, 
-       CASE 
-           WHEN v.pol_id IS NOT NULL THEN 'Auto Policy'
-           WHEN t.pol_id IS NOT NULL THEN 'Travel Health'
-           ELSE 'Property Policy'
-       END AS PolicyType,
-       c.name AS CustomerName,
-       p.sdate AS StartDate,
-       p.edate AS EndDate,
-       p.package AS PackageCode,
-       pkg.title AS PackageTitle,
-       pkg.total AS PackageTotal
-FROM project.policy p
-LEFT JOIN project.Auto_pol v ON p.p_id = v.pol_id
-LEFT JOIN project.Travel_pol t ON p.p_id = t.pol_id
-LEFT JOIN project.property_pol pp ON p.p_id = pp.pr_id 
-LEFT JOIN project.pol_dog pd ON p.p_id = pd.policy
-LEFT JOIN project.customer c ON pd.c_id = c.c_id --OR t.o_embg = c.c_id
-LEFT JOIN project.package pkg ON p.package = pkg.code
-{0} ORDER BY p.p_id DESC;
-", userwhere);
+                // Prepare the SQL query to call the GetPolicyData function
+                string query = string.Format("SELECT * FROM project.GetPolicyData('{0}')", userwhere);
 
+                // Create a command object
                 NpgsqlCommand com = new NpgsqlCommand(query, con);
+
+                // Add the userwhere parameter to the command
+                com.Parameters.AddWithValue("@UserWhere", userwhere);
+
+                // Execute the command and fill the results into a DataSet
                 NpgsqlDataAdapter sqlda = new NpgsqlDataAdapter(com);
                 DataSet ds = new DataSet();
                 sqlda.Fill(ds);
@@ -137,7 +125,7 @@ LEFT JOIN project.package pkg ON p.package = pkg.code
                 }
                 else
                 {
-                    ViewBag.Error = "Nuk ka te dhena ne baze!";
+                    ViewBag.Error = "Nuk ka te dhena ne baze!"; // No data found
                 }
 
                 int pageNumber = page ?? 1; // Default page number is 1
